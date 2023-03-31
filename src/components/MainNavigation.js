@@ -1,31 +1,46 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+import styled from "@emotion/styled";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import HomeIcon from "@mui/icons-material/Home";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import PersonIcon from "@mui/icons-material/Person";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   AppBar,
-  Toolbar,
-  Stack,
   Button,
   Icon,
+  Menu,
+  MenuItem,
+  Stack,
+  Toolbar,
   Typography,
 } from "@mui/material";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import HomeIcon from "@mui/icons-material/Home";
-import PersonIcon from "@mui/icons-material/Person";
-import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import StethoscopeIcon from "../assets/stethoscopeIcon.svg";
-import styled from "@emotion/styled";
 
 export default function MainNavigation() {
-  // const [anchorEl, setAnchorEl] =
-  //   (React.useState < null) | (HTMLElement > null);
-  // const open = Boolean(anchorEl);
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const [patientAnchorEl, setPatientAnchorEl] = useState(null);
+  const [doctorAnchorEl, setDoctorAnchorEl] = useState(null);
+  const navigate = useNavigate();
+
+  const handleClickPatient = (event) => {
+    setPatientAnchorEl(event.currentTarget);
+  };
+
+  const handleClosePatient = () => {
+    setPatientAnchorEl(null);
+  };
+
+  const handleClickDoctor = (event) => {
+    setDoctorAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseDoctor = () => {
+    setDoctorAnchorEl(null);
+  };
+
+  // const buttonRef = useImperativeHandle(null);
 
   const TitleCaseButton = styled(Button)({
     textTransform: "capitalize",
@@ -38,6 +53,16 @@ export default function MainNavigation() {
     justifyContent: "center",
     alignItems: "center",
   });
+
+  // const TitleCaseSelectButton = styled(Button)({
+  //   textTransform: "capitalize",
+  //   fontWeight: 400,
+  //   fontFamily: "Open Sans, sans-serif",
+  //   letterSpacing: "1px",
+  //   fontSize: "16px",
+  //   color: "#4a4a4b",
+  //   display: "flex",
+  // });
 
   const styles = {
     link: {
@@ -71,36 +96,6 @@ export default function MainNavigation() {
       <Toolbar
         sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        {/* <IconButton size="large" aria-label="logo" sx={{ color: "black" }}>
-          <LocalHospitalIcon />
-        </IconButton>
-        <Typography
-          variant="h5"
-          component="div"
-          sx={{ flexGrow: 1, color: "#4a4a4b" }}
-        >small
-          HMS
-        </Typography> */}
-
-        {/* <Button
-          sx={{ fontSize: "28px" }}
-          startIcon={<LocalHospitalIcon sx={{ fontSize: "5px" }} />}
-        >
-          HMS
-        </Button> */}
-
-        {/* <HospitalButton>
-          <Link to='/'></Link>
-          <LocalHospitalIcon sx={{ color: "black" }} />
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1, color: "#4a4a4b" }}
-          >
-            HMS
-          </Typography>
-        </HospitalButton> */}
-
         <HospitalButton>
           <Link to="/" style={styles.link}>
             <LocalHospitalIcon sx={{ color: "black" }} />
@@ -115,41 +110,108 @@ export default function MainNavigation() {
         </HospitalButton>
 
         <Stack direction="row" spacing={2} sx={{ paddingLeft: "1rem" }}>
-          {/* <Button sx={{ color: "#4a4a4b" }} startIcon={<HomeIcon />}>
-            <Link style={{ textDecoration: "none" }} to="/">
-              Home
-            </Link>
-          </Button> */}
-
           <TitleCaseButton startIcon={<HomeIcon />}>
             <Link style={styles.link} to="/">
               Home
             </Link>
           </TitleCaseButton>
-          {/* <Button startIcon={<PersonIcon />} sx={{ color: "#4a4a4b" }}>
-            Patient
-          </Button> */}
           <div>
-            <TitleCaseButton startIcon={<PersonIcon />}>
+            <Button
+              sx={{
+                textTransform: "capitalize",
+                fontWeight: 400,
+                fontFamily: "Open Sans, sans-serif",
+                letterSpacing: "1px",
+                fontSize: "16px",
+                color: "#4a4a4b",
+                display: "flex",
+              }}
+              id="patient-button"
+              startIcon={<PersonIcon />}
+              endIcon={<ArrowDropDownIcon />}
+              onClick={handleClickPatient}
+            >
               <Link style={styles.link} to="/patient">
                 Patient
               </Link>
-            </TitleCaseButton>
-            {/* <Menu
-              id="basic-menu"
-              // anchorEl={}
-              // open={open}
-              // onClose={handleClose}
+            </Button>
+            <Menu
+              // ref={buttonRef}
+              id="patient-menu"
+              anchorEl={patientAnchorEl}
+              open={Boolean(patientAnchorEl)}
+              onClose={handleClosePatient}
               MenuListProps={{
-                "aria-labelledby": "basic-button",
+                "aria-labelledby": "patient-button",
               }}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>My account</MenuItem>
-              <MenuItem>Logout</MenuItem>
-            </Menu> */}
+              <MenuItem
+                onClick={() => {
+                  navigate("/patient/add");
+                  handleClosePatient();
+                }}
+              >
+                Create Patient
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/patient/edit");
+                  handleClosePatient();
+                }}
+              >
+                Edit Patient
+              </MenuItem>
+            </Menu>
           </div>
-          <TitleCaseButton startIcon={DoctorIcon}>
+          <div>
+            <Button
+              sx={{
+                textTransform: "capitalize",
+                fontWeight: 400,
+                fontFamily: "Open Sans, sans-serif",
+                letterSpacing: "1px",
+                fontSize: "16px",
+                color: "#4a4a4b",
+                display: "flex",
+              }}
+              id="doctor-button"
+              startIcon={DoctorIcon}
+              endIcon={<ArrowDropDownIcon />}
+              onClick={handleClickDoctor}
+            >
+              <Link style={styles.link} to="/doctor">
+                Doctor
+              </Link>
+            </Button>
+            <Menu
+              // ref={buttonRef}
+              id="doctor-menu"
+              anchorEl={doctorAnchorEl}
+              open={Boolean(doctorAnchorEl)}
+              onClose={handleCloseDoctor}
+              MenuListProps={{
+                "aria-labelledby": "doctor-button",
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  navigate("/doctor/add");
+                  handleCloseDoctor();
+                }}
+              >
+                Create Doctor
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/doctor/edit");
+                  handleCloseDoctor();
+                }}
+              >
+                Edit Doctor
+              </MenuItem>
+            </Menu>
+          </div>
+          {/* <TitleCaseButton startIcon={DoctorIcon}>
             <Link
               style={{
                 textDecoration: "none",
@@ -159,13 +221,8 @@ export default function MainNavigation() {
             >
               Doctor
             </Link>
-          </TitleCaseButton>
-          {/* <TitleCaseButton
-            startIcon={<EventAvailableIcon />}
-            sx={{ color: "#4a4a4b" }}
-          >
-            Appointments
           </TitleCaseButton> */}
+
           <TitleCaseButton startIcon={<EventAvailableIcon />}>
             <Link
               style={{
