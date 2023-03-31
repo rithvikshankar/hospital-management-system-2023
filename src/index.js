@@ -4,10 +4,26 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import "@fontsource/open-sans";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Open Sans, sans-serif",
+  },
+  palette: {
+    secondary: {
+      main: "#218838",
+    },
+  },
+});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
