@@ -3,8 +3,11 @@ import { Box } from "@mui/system";
 import React from "react";
 
 import doctorImage from "../assets/doctor-image-homepage.png";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
   return (
     // <div>
     //   <h2 style={{ fontWeight: "350" }}>Hospital Management System</h2>
@@ -39,6 +42,9 @@ export default function HomePage() {
               variant="outlined"
               color="secondary"
               sx={{ fontSize: "1.1rem", width: "50%" }}
+              onClick={() => {
+                navigate("/patient/add");
+              }}
             >
               Create Patient
             </Button>
@@ -46,6 +52,9 @@ export default function HomePage() {
               variant="contained"
               color="primary"
               sx={{ fontSize: "1.1rem", width: "50%" }}
+              onClick={() => {
+                navigate("/appointments");
+              }}
             >
               Create Appointment
             </Button>

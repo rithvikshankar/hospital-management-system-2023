@@ -83,7 +83,7 @@ export default function AddPatient() {
   };
 
   return (
-    <Box sx={{ padding: { xs: "1rem", md: "2rem 16rem" } }}>
+    <Box sx={{ padding: { xs: "1rem", md: "2rem 13rem" } }}>
       <form noValidate onSubmit={submitHandler}>
         <Typography variant="h4" gutterBottom sx={{ mb: "2rem" }}>
           Create Patient
