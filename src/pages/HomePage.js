@@ -4,12 +4,12 @@ import React from "react";
 
 import doctorImage from "../assets/doctor-image-homepage.png";
 
-export default function Homepage() {
+export default function HomePage() {
   return (
     // <div>
     //   <h2 style={{ fontWeight: "350" }}>Hospital Management System</h2>
     // </div>
-    <Box sx={{ padding: "2rem 4rem" }}>
+    <Box sx={{ p: "2rem 4rem" }}>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <Typography
@@ -51,7 +51,16 @@ export default function Homepage() {
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <img
             src={doctorImage}
             style={{ width: "80%" }}

@@ -2,11 +2,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AddDoctor from "./pages/AddDoctor";
 import AddPatient from "./pages/AddPatient";
 import AppointmentsPage from "./pages/AppointmentsPage";
-import DoctorPage from "./pages/DoctorPage";
 import EditDoctor from "./pages/EditDoctor";
 import EditPatient from "./pages/EditPatient";
 import HomePage from "./pages/HomePage";
-import PatientPage from "./pages/PatientPage";
 import RootLayout from "./pages/RootLayout";
 
 const router = createBrowserRouter([
@@ -21,14 +19,6 @@ const router = createBrowserRouter([
       {
         path: "appointments",
         element: <AppointmentsPage />,
-      },
-      {
-        path: "doctor",
-        element: <DoctorPage />,
-      },
-      {
-        path: "patient",
-        element: <PatientPage />,
       },
       {
         path: "patient/add",

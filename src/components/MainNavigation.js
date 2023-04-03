@@ -131,12 +131,11 @@ export default function MainNavigation() {
               endIcon={<ArrowDropDownIcon />}
               onClick={handleClickPatient}
             >
-              <Link style={styles.link} to="/patient">
+              <Link style={styles.link} to="#">
                 Patient
               </Link>
             </Button>
             <Menu
-              // ref={buttonRef}
               id="patient-menu"
               anchorEl={patientAnchorEl}
               open={Boolean(patientAnchorEl)}
@@ -179,7 +178,7 @@ export default function MainNavigation() {
               endIcon={<ArrowDropDownIcon />}
               onClick={handleClickDoctor}
             >
-              <Link style={styles.link} to="/doctor">
+              <Link style={styles.link} to="#">
                 Doctor
               </Link>
             </Button>
