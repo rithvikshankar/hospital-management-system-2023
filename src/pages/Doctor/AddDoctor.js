@@ -1,17 +1,31 @@
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React, { useReducer, useState } from "react";
 
-const patientReducer = (currentDetails, action) => {
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+const doctorReducer = (currentDetails, action) => {
   switch (action.type) {
     case "name":
       return { ...currentDetails, name: action.name };
-    case "age":
-      return { ...currentDetails, age: action.age };
+    case "spec":
+      return { ...currentDetails, spec: action.spec };
     case "contact":
       return { ...currentDetails, contact: action.contact };
-    case "address":
-      return { ...currentDetails, address: action.address };
+    case "fees":
+      return { ...currentDetails, fees: action.fees };
+    case "reset":
+      return initialState;
     default:
       throw new Error("Default case reached");
   }
@@ -19,9 +33,9 @@ const patientReducer = (currentDetails, action) => {
 
 const initialState = {
   name: "",
-  age: "",
+  spec: "",
   contact: "",
-  address: "",
+  fees: "",
 };
 
 const modalStyle = {
@@ -35,29 +49,24 @@ const modalStyle = {
   boxShadow: 24,
   color: "white",
   p: 4,
-  borderRadius: "0.4rem",
+  borderRadius: "1rem",
 };
 
-export default function AddPatient() {
-  const [patientState, dispatch] = useReducer(patientReducer, initialState);
+export default function AddDoctor() {
+  const [doctorState, dispatch] = useReducer(doctorReducer, initialState);
   const [showMessage, setShowMessage] = useState(false);
 
-  const submitPatients = async () => {
+  const submitDoctors = async () => {
     const response = await fetch(
-      "https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/patients.json",
+      "https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/doctors.json",
       {
         method: "POST",
-        body: JSON.stringify(patientState),
+        body: JSON.stringify(doctorState),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-
-    // if (response.ok) {
-    //   console.log("Response is ok");
-    //   setSubmitOk(true);
-    // }
 
     if (response.ok) {
       console.log("Response is ok");
@@ -72,8 +81,22 @@ export default function AddPatient() {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    submitPatients();
+    console.log(
+      "name: ",
+      doctorState.name,
+      "specialization: ",
+      doctorState.spec,
+      "contact: ",
+      doctorState.contact,
+      "fees: ",
+      doctorState.fees,
+      "showMessage: ",
+      showMessage
+    );
 
+    submitDoctors();
+
+    dispatch({ type: "reset" });
     // if (submitOk) {
     //   setShowMessage(true);
     //   setTimeout(() => {
@@ -82,17 +105,27 @@ export default function AddPatient() {
     // }
   };
 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (submitOk) {
+  //       setShowMessage(true);
+  //     }
+  //   }, 1000);
+  //   return () => clearTimeout(timer);
+  // }, [submitOk]);
+
   return (
     <Box sx={{ padding: { xs: "1rem", md: "2rem 13rem" } }}>
-      <form noValidate onSubmit={submitHandler}>
+      <form onSubmit={submitHandler}>
         <Typography variant="h4" gutterBottom sx={{ mb: "2rem" }}>
-          Create Patient
+          Create Doctor
         </Typography>
         <TextField
-          id="patient-name"
+          required
+          id="doctor-name"
           label="Name"
           variant="outlined"
-          value={patientState.name}
+          value={doctorState.name}
           inputProps={{
             style: {
               height: "1.1rem",
@@ -105,28 +138,30 @@ export default function AddPatient() {
           }}
         />
         <br />
-        <TextField
-          id="patient-age"
-          label="Age"
-          variant="outlined"
-          value={patientState.age}
-          inputProps={{
-            style: {
-              height: "1.1rem",
-              width: "20rem",
-            },
-          }}
-          sx={{ mb: "2rem" }}
-          onChange={(e) => {
-            dispatch({ type: "age", age: e.target.value });
-          }}
-        />
+        <FormControl sx={{ width: "21.8rem", mb: "2rem" }}>
+          <InputLabel id="doctor-spec-label">Specialization</InputLabel>
+          <Select
+            required
+            labelId="doctor-spec-label"
+            id="doctor-spec"
+            value={doctorState.spec}
+            label="Specialization"
+            onChange={(e) => {
+              dispatch({ type: "spec", spec: e.target.value });
+            }}
+          >
+            <MenuItem value="Cardiologist">Cardiologist</MenuItem>
+            <MenuItem value="Neurologist">Neurologist</MenuItem>
+            <MenuItem value="Dermatologist">Dermatologist</MenuItem>
+          </Select>
+        </FormControl>
         <br />
         <TextField
-          id="patient-contact"
+          required
+          id="doctor-contact"
           label="Contact"
           variant="outlined"
-          value={patientState.contact}
+          value={doctorState.contact}
           inputProps={{
             style: {
               height: "1.1rem",
@@ -140,12 +175,11 @@ export default function AddPatient() {
         />
         <br />
         <TextField
-          multiline
-          rows={4}
-          id="patient-address"
-          label="Address"
+          required
+          id="doctor-fees"
+          label="Fees"
           variant="outlined"
-          value={patientState.address}
+          value={doctorState.fees}
           inputProps={{
             style: {
               // height: "1.1rem",
@@ -154,7 +188,7 @@ export default function AddPatient() {
           }}
           sx={{ mb: "2rem" }}
           onChange={(e) => {
-            dispatch({ type: "address", address: e.target.value });
+            dispatch({ type: "fees", fees: e.target.value });
           }}
         />
         <br />
@@ -167,6 +201,8 @@ export default function AddPatient() {
           // open={open}
           open={showMessage}
           // onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
             <Box
@@ -178,15 +214,15 @@ export default function AddPatient() {
             >
               <CheckCircleIcon fontSize="large" />
             </Box>
-
             <Typography id="modal-modal-title" variant="h5" component="h2">
               Success!
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              New patient has been added.
+              New doctor has been added.
             </Typography>
           </Box>
         </Modal>
+        // <p>Hello</p>
       )}
     </Box>
   );

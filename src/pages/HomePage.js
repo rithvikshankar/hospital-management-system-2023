@@ -27,7 +27,10 @@ export default function HomePage() {
             basic functionality such as creating, editing and deleting patients,
             doctors and appointments.
           </Typography>
-          <Typography variant="body1" sx={{ mt: "2rem", fontSize: "1.2rem" }}>
+          <Typography
+            variant="body1"
+            sx={{ mt: "2rem", mb: "0.5rem", fontSize: "1.2rem" }}
+          >
             Feel free to try out the app by creating an appointment!
           </Typography>
           <Box
