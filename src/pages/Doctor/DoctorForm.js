@@ -1,16 +1,24 @@
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useReducer } from "react";
 
-const patientReducer = (currentDetails, action) => {
+const doctorReducer = (currentDetails, action) => {
   switch (action.type) {
     case "name":
       return { ...currentDetails, name: action.name };
-    case "age":
-      return { ...currentDetails, age: action.age };
+    case "spec":
+      return { ...currentDetails, spec: action.spec };
     case "contact":
       return { ...currentDetails, contact: action.contact };
-    case "address":
-      return { ...currentDetails, address: action.address };
+    case "fees":
+      return { ...currentDetails, fees: action.fees };
     case "reset":
       return initialState;
     default:
@@ -20,18 +28,18 @@ const patientReducer = (currentDetails, action) => {
 
 const initialState = {
   name: "",
-  age: "",
+  spec: "",
   contact: "",
-  address: "",
+  fees: "",
 };
 
 export default function PatientForm(props) {
-  const [patientState, dispatch] = useReducer(patientReducer, initialState);
+  const [doctorState, dispatch] = useReducer(doctorReducer, initialState);
 
-  const submitPatients = async () => {
+  const submitDoctors = async () => {
     const response = await fetch(props.url, {
       method: props.method,
-      body: JSON.stringify(patientState),
+      body: JSON.stringify(doctorState),
       headers: {
         "Content-Type": "application/json",
       },
@@ -50,7 +58,7 @@ export default function PatientForm(props) {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    submitPatients();
+    submitDoctors();
     dispatch({ type: "reset" });
   };
 
@@ -61,10 +69,10 @@ export default function PatientForm(props) {
       </Typography>
       <TextField
         required
-        id="patient-name"
+        id="doctor-name"
         label="Name"
         variant="outlined"
-        value={patientState.name}
+        value={doctorState.name}
         inputProps={{
           style: {
             height: "1.1rem",
@@ -77,30 +85,30 @@ export default function PatientForm(props) {
         }}
       />
       <br />
-      <TextField
-        required
-        id="patient-age"
-        label="Age"
-        variant="outlined"
-        value={patientState.age}
-        inputProps={{
-          style: {
-            height: "1.1rem",
-            width: "20rem",
-          },
-        }}
-        sx={{ mb: "2rem" }}
-        onChange={(e) => {
-          dispatch({ type: "age", age: e.target.value });
-        }}
-      />
+      <FormControl sx={{ width: "21.8rem", mb: "2rem" }}>
+        <InputLabel id="doctor-spec-label">Specialization</InputLabel>
+        <Select
+          required
+          labelId="doctor-spec-label"
+          id="doctor-spec"
+          value={doctorState.spec}
+          label="Specialization"
+          onChange={(e) => {
+            dispatch({ type: "spec", spec: e.target.value });
+          }}
+        >
+          <MenuItem value="Cardiologist">Cardiologist</MenuItem>
+          <MenuItem value="Neurologist">Neurologist</MenuItem>
+          <MenuItem value="Dermatologist">Dermatologist</MenuItem>
+        </Select>
+      </FormControl>
       <br />
       <TextField
         required
-        id="patient-contact"
+        id="doctor-contact"
         label="Contact"
         variant="outlined"
-        value={patientState.contact}
+        value={doctorState.contact}
         inputProps={{
           style: {
             height: "1.1rem",
@@ -115,17 +123,10 @@ export default function PatientForm(props) {
       <br />
       <TextField
         required
-        multiline
-        rows={4}
-        id="patient-address"
-        label="Address"
+        id="doctor-fees"
+        label="Fees"
         variant="outlined"
-        // value={
-        //   props.type === "edit"
-        //     ? props.selectedPatient.address
-        //     : patientState.address
-        // }
-        value={patientState.address}
+        value={doctorState.fees}
         inputProps={{
           style: {
             // height: "1.1rem",
@@ -134,7 +135,7 @@ export default function PatientForm(props) {
         }}
         sx={{ mb: "2rem" }}
         onChange={(e) => {
-          dispatch({ type: "address", address: e.target.value });
+          dispatch({ type: "fees", fees: e.target.value });
         }}
       />
       <br />

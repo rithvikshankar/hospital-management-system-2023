@@ -12,6 +12,9 @@ const theme = createTheme({
     fontFamily: "Open Sans, sans-serif",
   },
   palette: {
+    primary: {
+      main: "#1976d2",
+    },
     secondary: {
       main: "#218838",
     },
