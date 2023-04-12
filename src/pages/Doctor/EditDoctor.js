@@ -7,14 +7,18 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DoctorForm from "./DoctorForm";
+import { MessageContext } from "../../Context/MessageContext";
+import SuccessModal from "../../UI/SuccessModal";
 
 export default function EditDoctor() {
   const [doctorData, setDoctorData] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { showMessage, setShowMessage } = useContext(MessageContext);
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -34,9 +38,9 @@ export default function EditDoctor() {
         doctorDataArray.push({
           id: key,
           name: data[key].name,
-          age: data[key].age,
+          spec: data[key].spec,
           contact: data[key].contact,
-          address: data[key].address,
+          fees: data[key].fees,
         });
       }
       // for (const key in data) {
@@ -111,9 +115,14 @@ export default function EditDoctor() {
               url={`https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/doctors/${selectedDoctor.id}.json`}
               selectedDoctor={selectedDoctor}
               type="edit"
+              showMessage={showMessage}
+              setShowMessage={setShowMessage}
             />
           )}
         </Box>
+      )}
+      {showMessage && (
+        <SuccessModal description="Doctor details have been modified." />
       )}
     </Box>
   );

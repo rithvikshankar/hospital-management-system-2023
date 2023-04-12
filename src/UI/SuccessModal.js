@@ -10,7 +10,7 @@ export default function SuccessModal(props) {
 
   const modalStyle = {
     position: "absolute",
-    top: "12%",
+    top: "15%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 250,

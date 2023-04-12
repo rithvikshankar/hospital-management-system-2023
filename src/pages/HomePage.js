@@ -56,7 +56,7 @@ export default function HomePage() {
               color="primary"
               sx={{ fontSize: "1.1rem", width: "50%" }}
               onClick={() => {
-                navigate("/appointments");
+                navigate("/appointments/add");
               }}
             >
               Create Appointment

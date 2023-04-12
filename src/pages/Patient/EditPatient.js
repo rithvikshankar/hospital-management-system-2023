@@ -7,14 +7,18 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PatientForm from "./PatientForm";
+import { MessageContext } from "../../Context/MessageContext";
+import SuccessModal from "../../UI/SuccessModal";
 
 export default function EditPatient() {
   const [patientData, setPatientData] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [selectedPatient, setSelectedPatient] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { showMessage, setShowMessage } = useContext(MessageContext);
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -111,9 +115,14 @@ export default function EditPatient() {
               url={`https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/patients/${selectedPatient.id}.json`}
               selectedPatient={selectedPatient}
               type="edit"
+              showMessage={showMessage}
+              setShowMessage={setShowMessage}
             />
           )}
         </Box>
+      )}
+      {showMessage && (
+        <SuccessModal description="Patient details have been modified." />
       )}
     </Box>
   );

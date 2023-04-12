@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/RootLayout";
 
 import { MessageProvider } from "./Context/MessageContext";
+import AddAppointment from "./pages/Appointments/AddAppointment";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
         element: <AppointmentsPage />,
       },
       {
+        path: "appointments/add",
+        element: (
+          <MessageProvider>
+            <AddAppointment />
+          </MessageProvider>
+        ),
+      },
+      {
         path: "patient/add",
         element: (
           <MessageProvider>
@@ -32,7 +41,11 @@ const router = createBrowserRouter([
       },
       {
         path: "patient/edit",
-        element: <EditPatient />,
+        element: (
+          <MessageProvider>
+            <EditPatient />
+          </MessageProvider>
+        ),
       },
       {
         path: "doctor/add",
@@ -44,7 +57,11 @@ const router = createBrowserRouter([
       },
       {
         path: "doctor/edit",
-        element: <EditDoctor />,
+        element: (
+          <MessageProvider>
+            <EditDoctor />
+          </MessageProvider>
+        ),
       },
     ],
   },

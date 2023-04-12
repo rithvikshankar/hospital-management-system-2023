@@ -39,7 +39,6 @@ export default function PatientForm(props) {
 
     if (response.ok) {
       console.log("Response is ok");
-      // setSubmitOk(true);
       props.setShowMessage(true);
       setTimeout(() => {
         props.setShowMessage(false);
