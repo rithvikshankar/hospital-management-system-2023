@@ -16,7 +16,7 @@ import SuccessModal from "../../UI/SuccessModal";
 export default function AddAppointment() {
   const [patientNames, setPatientNames] = useState([]);
   const [selectedPatientName, setSelectedPatientName] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState([]);
+  // const [selectedPatient, setSelectedPatient] = useState([]);
   const [doctorNames, setDoctorNames] = useState([]);
   const [selectedDoctorName, setSelectedDoctorName] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState([]);
@@ -42,9 +42,6 @@ export default function AddAppointment() {
       for (const key in data) {
         patientDataArray.push({ id: data[key].id, name: data[key].name });
       }
-      // for (const key in data) {
-      //   patientDataArray.push(data[key].name);
-      // }
 
       setPatientNames(patientDataArray);
       setIsLoading(false);
@@ -52,13 +49,13 @@ export default function AddAppointment() {
     fetchPatients();
   }, []);
 
-  useEffect(() => {
-    if (selectedPatientName) {
-      setSelectedPatient(
-        patientNames.find((patient) => patient.name === selectedPatientName)
-      );
-    }
-  }, [patientNames, selectedPatientName]);
+  // useEffect(() => {
+  //   if (selectedPatientName) {
+  //     setSelectedPatient(
+  //       patientNames.find((patient) => patient.name === selectedPatientName)
+  //     );
+  //   }
+  // }, [patientNames, selectedPatientName]);
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -109,6 +106,7 @@ export default function AddAppointment() {
           doctor: selectedDoctorName,
           time: aptTime,
           fees: selectedDoctor ? selectedDoctor.fees : "",
+          completed: "",
         }),
         headers: {
           "Content-Type": "application/json",

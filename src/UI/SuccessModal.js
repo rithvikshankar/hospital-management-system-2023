@@ -36,10 +36,20 @@ export default function SuccessModal(props) {
             <CheckCircleIcon fontSize="large" />
           </Box>
 
-          <Typography id="modal-modal-title" variant="h5" component="h2">
+          <Typography
+            id="modal-modal-title"
+            variant="h5"
+            component="h2"
+            align="center"
+          >
             Success!
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+            align="center"
+          >
             {props.description}
           </Typography>
         </Box>
