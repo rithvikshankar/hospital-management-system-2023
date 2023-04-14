@@ -26,10 +26,23 @@ export default function AppointmentsPage() {
         throw new Error("Error in fetching appointments!");
       }
 
+      const appointmentDataArray = [];
+
+      for (const key in data) {
+        appointmentDataArray.push({
+          id: key,
+          patient: data[key].patient,
+          doctor: data[key].doctor,
+          time: data[key].time,
+          completed: data[key].completed,
+        });
+      }
+
       // setAppointmentData(data);
       // const dataWithCompletedState = {...data, completed: 'false'}
       // setAppointmentData(Object.values(dataWithCompletedState));
-      setAppointmentData(Object.values(data));
+      // setAppointmentData(Object.values(data));
+      setAppointmentData(appointmentDataArray);
       setIsLoading(false);
     };
 
@@ -86,7 +99,12 @@ export default function AppointmentsPage() {
         {!isLoading &&
           appointmentData &&
           appointmentData.map((apt) => (
-            <AppointmentsCard appointmentData={apt} completed={false} />
+            <AppointmentsCard
+              key={apt.id}
+              id={apt.id}
+              appointmentData={apt}
+              completed={false}
+            />
           ))}
         {!isLoading && !appointmentData && (
           <p>No appointment data available.</p>
@@ -119,7 +137,12 @@ export default function AppointmentsPage() {
         {!isLoading &&
           appointmentData.completed &&
           appointmentData.map((apt) => (
-            <AppointmentsCard appointmentData={apt} completed={true} />
+            <AppointmentsCard
+              key={apt.id}
+              id={apt.id}
+              appointmentData={apt}
+              completed={true}
+            />
           ))}
       </Box>
     </Box>

@@ -1,15 +1,24 @@
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
-import React, { useEffect } from "react";
+import React from "react";
 
 export default function AppointmentsCard(props) {
   const handleCompleteAppointmentButton = async () => {
     await fetch(
-      `https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/appointments/${appointmentId}.json`,
+      `https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/appointments/${props.id}.json`,
       {
         method: "PUT",
         body: JSON.stringify({ ...props.appointmentData, completed: true }),
+      }
+    );
+  };
+
+  const handleRemoveAppointmentButton = async () => {
+    await fetch(
+      `https://hospital-management-syst-8c88d-default-rtdb.asia-southeast1.firebasedatabase.app/appointments/${props.id}.json`,
+      {
+        method: "DELETE",
       }
     );
   };
@@ -64,7 +73,11 @@ export default function AppointmentsCard(props) {
         >
           <IconButton
             variant="contained"
-            onClick={props.completed ? handleCompletedApt : handleRemoveApt}
+            onClick={
+              props.completed
+                ? handleCompleteAppointmentButton
+                : handleRemoveAppointmentButton
+            }
             sx={{
               height: "100%",
               borderRadius: "0px",
