@@ -63,7 +63,10 @@ const initialState = {
 };
 
 export default function DoctorForm(props) {
-  const [doctorState, dispatch] = useReducer(doctorReducer, initialState);
+  const [doctorState, dispatch] = useReducer(
+    doctorReducer,
+    props.type === "edit" ? props.initialState : initialState
+  );
 
   const submitDoctors = async () => {
     const response = await fetch(props.url, {
@@ -104,12 +107,11 @@ export default function DoctorForm(props) {
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
-    console.log(name);
+
     dispatch({
       type: `set_${name}`, // MIGHT GIVE A PROBLEM, MIGHT NEED TO USE STRING
       payload: value,
     });
-    // console.log(value);
   };
 
   const blurHandler = (event) => {
@@ -144,8 +146,6 @@ export default function DoctorForm(props) {
         },
       });
     }
-
-    // console.log(doctorState.fees.error);
   };
 
   return (

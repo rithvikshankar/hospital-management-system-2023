@@ -15,7 +15,7 @@ import SuccessModal from "../../UI/SuccessModal";
 export default function EditPatient() {
   const [patientData, setPatientData] = useState([]);
   const [selectedName, setSelectedName] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState([]);
+  const [selectedPatient, setSelectedPatient] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const { showMessage, setShowMessage } = useContext(MessageContext);
@@ -43,15 +43,12 @@ export default function EditPatient() {
           address: data[key].address,
         });
       }
-      // for (const key in data) {
-      //   patientNamesArray.push(data[key].name);
-      // }
 
       setPatientData(patientDataArray);
       setIsLoading(false);
     };
     fetchPatients();
-  }, [patientData.id]);
+  }, [patientData.id, selectedName]);
 
   useEffect(() => {
     if (selectedName) {
@@ -60,8 +57,6 @@ export default function EditPatient() {
       );
     }
   }, [patientData, selectedName]);
-
-  console.log(selectedPatient);
 
   return (
     <Box sx={{ p: { xs: "1rem", md: "2rem 13rem" } }}>
@@ -96,9 +91,6 @@ export default function EditPatient() {
                 setSelectedName(e.target.value);
               }}
             >
-              {/* <MenuItem value="Cardiologist">Cardiologist</MenuItem>
-            <MenuItem value="Neurologist">Neurologist</MenuItem>
-            <MenuItem value="Dermatologist">Dermatologist</MenuItem> */}
               {patientData.map(
                 (patient) =>
                   patient.name && (
@@ -117,6 +109,12 @@ export default function EditPatient() {
               type="edit"
               showMessage={showMessage}
               setShowMessage={setShowMessage}
+              initialState={{
+                name: { value: selectedPatient.name, error: "" },
+                age: { value: selectedPatient.age, error: "" },
+                contact: { value: selectedPatient.contact, error: "" },
+                address: { value: selectedPatient.address, error: "" },
+              }}
             />
           )}
         </Box>

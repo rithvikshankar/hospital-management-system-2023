@@ -39,6 +39,7 @@ export default function HomePage() {
               display: "flex",
               justifyContent: "space-between",
               gap: "1rem",
+              pr: "2rem",
             }}
           >
             <Button

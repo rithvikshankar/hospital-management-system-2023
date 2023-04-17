@@ -15,7 +15,7 @@ import SuccessModal from "../../UI/SuccessModal";
 export default function EditDoctor() {
   const [doctorData, setDoctorData] = useState([]);
   const [selectedName, setSelectedName] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const { showMessage, setShowMessage } = useContext(MessageContext);
@@ -51,7 +51,7 @@ export default function EditDoctor() {
       setIsLoading(false);
     };
     fetchDoctors();
-  }, [doctorData.id]);
+  }, [doctorData.id, selectedName]);
 
   useEffect(() => {
     if (selectedName) {
@@ -60,8 +60,6 @@ export default function EditDoctor() {
       );
     }
   }, [doctorData, selectedName]);
-
-  console.log(selectedDoctor);
 
   return (
     <Box sx={{ p: { xs: "1rem", md: "2rem 13rem" } }}>
@@ -117,6 +115,12 @@ export default function EditDoctor() {
               type="edit"
               showMessage={showMessage}
               setShowMessage={setShowMessage}
+              initialState={{
+                name: { value: selectedDoctor.name, error: "" },
+                spec: { value: selectedDoctor.spec, error: "" },
+                contact: { value: selectedDoctor.contact, error: "" },
+                fees: { value: selectedDoctor.fees, error: "" },
+              }}
             />
           )}
         </Box>

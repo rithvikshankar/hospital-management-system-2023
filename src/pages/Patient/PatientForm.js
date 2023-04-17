@@ -50,7 +50,7 @@ const patientReducer = (currentDetails, action) => {
   }
 };
 
-const initialState = {
+let initialState = {
   name: { value: "", error: "" },
   age: { value: "", error: "" },
   contact: { value: "", error: "" },
@@ -58,7 +58,10 @@ const initialState = {
 };
 
 export default function PatientForm(props) {
-  const [patientState, dispatch] = useReducer(patientReducer, initialState);
+  const [patientState, dispatch] = useReducer(
+    patientReducer,
+    props.type === "edit" ? props.initialState : initialState // If the type is edit, initial state is the current values of the fields, not ''
+  );
 
   const submitPatients = async () => {
     const response = await fetch(props.url, {
@@ -98,12 +101,11 @@ export default function PatientForm(props) {
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
-    console.log(name);
+
     dispatch({
-      type: `set_${name}`, // MIGHT GIVE A PROBLEM, MIGHT NEED TO USE STRING
+      type: `set_${name}`,
       payload: value,
     });
-    // console.log(value);
   };
 
   const blurHandler = (event) => {
@@ -216,17 +218,11 @@ export default function PatientForm(props) {
         name="address"
         label="Address"
         variant="outlined"
-        // value={
-        //   props.type === "edit"
-        //     ? props.selectedPatient.address
-        //     : patientState.address
-        // }
         value={patientState.address.value}
         error={Boolean(patientState.address.error)}
         helperText={patientState.address.error}
         inputProps={{
           style: {
-            // height: "1.1rem",
             width: "20rem",
           },
         }}

@@ -12,6 +12,7 @@ export default function AppointmentsCard(props) {
         body: JSON.stringify({ ...props.appointmentData, completed: true }),
       }
     );
+    props.onComplete(props.id);
   };
 
   const handleRemoveAppointmentButton = async () => {
@@ -21,6 +22,7 @@ export default function AppointmentsCard(props) {
         method: "DELETE",
       }
     );
+    props.onRemove(props.id);
   };
 
   return (
@@ -75,8 +77,10 @@ export default function AppointmentsCard(props) {
             variant="contained"
             onClick={
               props.completed
-                ? handleCompleteAppointmentButton
-                : handleRemoveAppointmentButton
+                ? handleRemoveAppointmentButton
+                : handleCompleteAppointmentButton
+
+              // handleCompleteAppointmentButton
             }
             sx={{
               height: "100%",

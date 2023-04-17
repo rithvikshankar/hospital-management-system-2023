@@ -33,15 +33,12 @@ export default function AppointmentsPage() {
           id: key,
           patient: data[key].patient,
           doctor: data[key].doctor,
+          fees: data[key].fees,
           time: data[key].time,
           completed: data[key].completed,
         });
       }
 
-      // setAppointmentData(data);
-      // const dataWithCompletedState = {...data, completed: 'false'}
-      // setAppointmentData(Object.values(dataWithCompletedState));
-      // setAppointmentData(Object.values(data));
       setAppointmentData(appointmentDataArray);
       setIsLoading(false);
     };
@@ -49,7 +46,17 @@ export default function AppointmentsPage() {
     fetchAppointments();
   }, []);
 
-  console.log(appointmentData);
+  const handleCompletedApt = (id) => {
+    setAppointmentData((prevState) =>
+      prevState.map((apt) =>
+        apt.id === id ? { ...apt, completed: true } : apt
+      )
+    );
+  };
+
+  const handleRemovedApt = (id) => {
+    setAppointmentData((prevState) => prevState.filter((apt) => apt.id !== id));
+  };
 
   return (
     <Box sx={{ padding: { xs: "1rem", md: "2rem 13rem" } }}>
@@ -98,14 +105,17 @@ export default function AppointmentsPage() {
         {/* Rendering appointment cards */}
         {!isLoading &&
           appointmentData &&
-          appointmentData.map((apt) => (
-            <AppointmentsCard
-              key={apt.id}
-              id={apt.id}
-              appointmentData={apt}
-              completed={false}
-            />
-          ))}
+          appointmentData
+            .filter((apt) => !apt.completed)
+            .map((apt) => (
+              <AppointmentsCard
+                key={apt.id}
+                id={apt.id}
+                appointmentData={apt}
+                completed={apt.completed}
+                onComplete={handleCompletedApt}
+              />
+            ))}
         {!isLoading && !appointmentData && (
           <p>No appointment data available.</p>
         )}
@@ -135,15 +145,18 @@ export default function AppointmentsPage() {
         }}
       >
         {!isLoading &&
-          appointmentData.completed &&
-          appointmentData.map((apt) => (
-            <AppointmentsCard
-              key={apt.id}
-              id={apt.id}
-              appointmentData={apt}
-              completed={true}
-            />
-          ))}
+          // appointmentData.completed &&
+          appointmentData
+            .filter((apt) => apt.completed)
+            .map((apt) => (
+              <AppointmentsCard
+                key={apt.id}
+                id={apt.id}
+                appointmentData={apt}
+                completed={apt.completed}
+                onRemove={handleRemovedApt}
+              />
+            ))}
       </Box>
     </Box>
   );

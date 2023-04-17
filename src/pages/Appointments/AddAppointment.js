@@ -16,7 +16,6 @@ import SuccessModal from "../../UI/SuccessModal";
 export default function AddAppointment() {
   const [patientNames, setPatientNames] = useState([]);
   const [selectedPatientName, setSelectedPatientName] = useState("");
-  // const [selectedPatient, setSelectedPatient] = useState([]);
   const [doctorNames, setDoctorNames] = useState([]);
   const [selectedDoctorName, setSelectedDoctorName] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState([]);
@@ -49,14 +48,6 @@ export default function AddAppointment() {
     fetchPatients();
   }, []);
 
-  // useEffect(() => {
-  //   if (selectedPatientName) {
-  //     setSelectedPatient(
-  //       patientNames.find((patient) => patient.name === selectedPatientName)
-  //     );
-  //   }
-  // }, [patientNames, selectedPatientName]);
-
   useEffect(() => {
     const fetchDoctors = async () => {
       setIsLoading(true);
@@ -78,9 +69,6 @@ export default function AddAppointment() {
           fees: data[key].fees,
         });
       }
-      // for (const key in data) {
-      //   doctorNamesArray.push(data[key].name);
-      // }
 
       setDoctorNames(doctorDataArray);
       setIsLoading(false);
@@ -106,7 +94,7 @@ export default function AddAppointment() {
           doctor: selectedDoctorName,
           time: aptTime,
           fees: selectedDoctor ? selectedDoctor.fees : "",
-          completed: "",
+          completed: false,
         }),
         headers: {
           "Content-Type": "application/json",
